@@ -19,16 +19,22 @@ export default function css (options = {}) {
     }
   }
 
-  const compileToCSS = function (scss) {
+  const compileSass = function (scss) {
     // Compile SASS to CSS
     if (scss.length) {
       includePaths = includePaths.filter((v, i, a) => a.indexOf(v) === i)
       try {
         const sass = options.sass || loadSassLibrary()
-        const css = sass.renderSync(Object.assign({
+
+        const render = sass.renderSync(Object.assign({
           data: prefix + scss,
+          outFile: dest,
           includePaths
-        }, options)).css.toString()
+        }, options))
+
+        const css = render.css.toString()
+        const map = render.map ? render.map.toString() : null;
+
         // Possibly process CSS (e.g. by PostCSS)
         if (typeof options.processor === 'function') {
           const processor = options.processor(css, styles)
@@ -41,7 +47,7 @@ export default function css (options = {}) {
 
           return processor
         }
-        return css
+        return { css, map }
       } catch (e) {
         if (options.failOnError) {
           throw e
@@ -84,7 +90,7 @@ export default function css (options = {}) {
 
       // When output is disabled, the stylesheet is exported as a string
       if (options.output === false) {
-        return Promise.resolve(compileToCSS(code)).then(css => ({
+        return Promise.resolve(compileSass(code).css).then(css => ({
           code: 'export default ' + JSON.stringify(css),
           map: { mappings: '' }
         }))
@@ -107,47 +113,55 @@ export default function css (options = {}) {
         scss += styles[id] || ''
       }
 
-      const css = compileToCSS(scss)
+      if (typeof dest !== 'string') {
+        // Guess destination filename
+        dest = opts.dest || opts.file || 'bundle.js'
+        if (dest.endsWith('.js')) {
+          dest = dest.slice(0, -3)
+        }
+        dest = dest + '.css'
+      }
+
+      const compiled = compileSass(scss)
 
       // Resolve if processor returned a Promise
-      Promise.resolve(css).then(css => {
+      Promise.resolve(compiled).then(compiled => {
         // Emit styles through callback
         if (typeof options.output === 'function') {
-          options.output(css, styles)
+          options.output(compiled.css, styles)
           return
         }
 
-        if (typeof css !== 'string') {
+        if (typeof compiled.css !== 'string') {
           return
         }
 
-        if (typeof dest !== 'string') {
-          // Don't create unwanted empty stylesheets
-          if (!css.length) {
-            return
-          }
-
-          // Guess destination filename
-          dest = opts.dest || opts.file || 'bundle.js'
-          if (dest.endsWith('.js')) {
-            dest = dest.slice(0, -3)
-          }
-          dest = dest + '.css'
+        // Don't create unwanted empty stylesheets
+        if (!compiled.css.length) {
+          return
         }
 
         // Ensure that dest parent folders exist (create the missing ones)
         ensureParentDirsSync(dirname(dest))
 
         // Emit styles to file
-        writeFile(dest, css, (err) => {
+        writeFile(dest, compiled.css, (err) => {
           if (opts.verbose !== false) {
             if (err) {
               console.error(red(err))
-            } else if (css) {
-              console.log(green(dest), getSize(css.length))
+            } else if (compiled.css) {
+              console.log(green(dest), getSize(compiled.css.length))
             }
           }
         })
+
+        if (compiled.map) {
+          writeFile(dest + '.map', compiled.map, (err) => {
+            if (opts.verbose !== false && err) {
+              console.error(red(err));
+            }
+          });
+        }
       })
     }
   }
