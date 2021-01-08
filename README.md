@@ -1,28 +1,33 @@
 # Rollup multiple .scss, .sass and .css imports
 
+WARNING: This is a fork with some changes required for personal needs.
+
+New features includes:
+- remove `node-sass` from dependencies, auto-recognize `sass` library from installed modules
+- generate source map for build
+
+If my PR will be merged or similar functionality will be implemented in original project, this project will be deleted without notice.
+
+
 <a href="LICENSE">
   <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" alt="Software License" />
 </a>
-<a href="https://github.com/thgh/rollup-plugin-scss/issues">
-  <img src="https://img.shields.io/github/issues/thgh/rollup-plugin-scss.svg" alt="Issues" />
+<a href="https://github.com/astappiev/rollup-plugin-scss/issues">
+  <img src="https://img.shields.io/github/issues/astappiev/rollup-plugin-scss.svg" alt="Issues" />
 </a>
 <a href="http://standardjs.com/">
   <img src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg" alt="JavaScript Style Guide" />
 </a>
-<a href="https://npmjs.org/package/rollup-plugin-scss">
-  <img src="https://img.shields.io/npm/v/rollup-plugin-scss.svg?style=flat-squar" alt="NPM" />
+<a href="https://npmjs.org/package/@astappiev/rollup-plugin-scss">
+  <img src="https://img.shields.io/npm/v/@astappiev/rollup-plugin-scss.svg?style=flat-squar" alt="NPM" />
 </a>
-<a href="https://github.com/thgh/rollup-plugin-scss/releases">
-  <img src="https://img.shields.io/github/release/thgh/rollup-plugin-scss.svg" alt="Latest Version" />
+<a href="https://github.com/astappiev/rollup-plugin-scss/releases">
+  <img src="https://img.shields.io/github/release/astappiev/rollup-plugin-scss.svg" alt="Latest Version" />
 </a>
 
 ## Installation
 ```
-# Rollup v0.60+ and v1+
 npm install --save-dev rollup-plugin-scss
-
-# Rollup v0.59 and below
-npm install --save-dev rollup-plugin-scss@0
 ```
 
 ## Usage

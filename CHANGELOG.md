@@ -4,6 +4,11 @@ All notable changes to `rollup-plugin-scss` will be documented in this file.
 
 ## [Unreleased]
 
+## [3.0.0] - 2021-01-08
+### Updated
+- Move node-sass to peerDependencies
+- Add sourceMap options
+
 ## [2.6.1] - 2020-10-01
 ### Updated
 - Move node-sass to optionalDependencies @weizhenye
