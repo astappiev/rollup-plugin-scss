@@ -1,6 +1,6 @@
 {
   "name": "@astappiev/rollup-plugin-scss",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Rollup multiple .scss, .sass and .css imports",
   "main": "index.cjs.js",
   "module": "index.es.js",
@@ -41,7 +41,7 @@
   "dependencies": {
     "rollup-pluginutils": "^2.8.0"
   },
-  "peerDependencies": {
+  "optionalDependencies": {
     "sass": ">=1.0.0",
     "node-sass": ">=4.0.0"
   },
