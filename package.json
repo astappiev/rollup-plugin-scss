@@ -39,14 +39,15 @@
     "index.es.js"
   ],
   "dependencies": {
-    "rollup-pluginutils": "^2.8.0"
+    "rollup-pluginutils": "^2.8.2"
   },
   "devDependencies": {
-    "autoprefixer": "^9.8.6",
-    "postcss": "^7.0.32",
-    "rollup": "^2.36.1",
+    "autoprefixer": "^10.2.3",
+    "postcss": "^8.2.4",
+    "rollup": "^2.38.0",
     "rollup-plugin-buble": "^0.19.8",
-    "sass": "^1.32.2",
+    "sass": "^1.32.5",
+    "node-sass": "^5.0.0",
     "standard": "^16.0.3"
   }
 }
