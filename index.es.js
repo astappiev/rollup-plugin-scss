@@ -41,7 +41,7 @@ export default function css (options = {}) {
 
           // PostCSS support
           if (typeof processor.process === 'function') {
-            return Promise.resolve(processor.process(css, { from: undefined, map: { prev: map, inline: false } }))
+            return Promise.resolve(processor.process(css, { from: undefined, to: dest, map: { prev: map, inline: false } }))
               .then(result => ({ css: result.css, map: result.map ? result.map.toString() : null }))
           }
 
