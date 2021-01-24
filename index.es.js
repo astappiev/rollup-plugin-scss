@@ -126,7 +126,7 @@ export default function css (options = {}) {
 
       // Resolve if processor returned a Promise
       Promise.resolve(compiled).then(compiled => {
-        if (typeof compiled.css !== 'object' || typeof compiled.css !== 'string') {
+        if (typeof compiled !== 'object' || typeof compiled.css !== 'string') {
           return
         }
 
