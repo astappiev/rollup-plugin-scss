@@ -27,8 +27,22 @@ If my PR will be merged or similar functionality will be implemented in original
 
 ## Installation
 ```
-npm install --save-dev rollup-plugin-scss
+# Rollup v0.60+ and v1+
+npm install --save-dev @astappiev/rollup-plugin-scss
+
+# Rollup v0.59 and below
+npm install --save-dev rollup-plugin-scss@0
 ```
+
+Since v3, you have to install Sass compiler manually:
+```
+# Node Sass (deprecated)
+npm install --save-dev node-sass
+
+# Dart Sass
+npm install --save-dev sass
+```
+If any of them is installed, it will be used automatically, if both installed `node-sass` will be used.
 
 ## Usage
 ```js
@@ -77,10 +91,13 @@ scss({
   // Disable any style output or callbacks, import as string
   output: false,
   
+  // Enables/disables generation of source map (default: false) 
+  sourceMap: true,
+
   // Choose files to include in processing (default: ['/**/*.css', '/**/*.scss', '/**/*.sass'])
   include: [],
   
-  // Choose files to exclude from processing, (default: undefined) 
+  // Choose files to exclude from processing (default: undefined) 
   exclude: [],
 
   // Determine if node process should be terminated on error (default: false)
@@ -89,14 +106,16 @@ scss({
   // Prefix global scss. Useful for variables and mixins.
   prefix: `@import "./fonts.scss";`,
 
-  // Use a node-sass compatible compiler (default: node-sass)
+  // A Sass (node-sass compatible) compiler to use
+  // - node-sass and sass packages are picked up automatically
+  // - you can use this option to specify custom package (e.g. a fork of one of them)
   sass: require('sass'),
 
   // Run postcss processor before output
-  processor: css => postcss([autoprefixer({ overrideBrowserslist: "Edge 18" })]),
+  processor: () => postcss([autoprefixer({ overrideBrowserslist: "Edge 18" })]),
 
   // Process resulting CSS
-  processor: css => css.replace('/*date*/', '/* ' + new Date().toJSON() + ' */'),
+  processor: (css, map) => ({ css: css.replace('/*date*/', '/* ' + new Date().toJSON() + ' */'), map }),
 
   // Add file/folder to be monitored in watch mode so that changes to these files will trigger rebuilds.
   // Do not choose a directory where rollup output or dest is pointed to as this will cause an infinite loop

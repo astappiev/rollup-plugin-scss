@@ -6,8 +6,10 @@ All notable changes to `rollup-plugin-scss` will be documented in this file.
 
 ## [3.0.0] - 2021-01-08
 ### Updated
-- Move node-sass to peerDependencies
-- Add sourceMap options
+- Remove `node-sass` from optionalDependencies @astappiev <br/>
+  **You have to specify `node-sass` or `sass` in your project dependencies alongside `rollup-plugin-scss`**
+- Add `sourceMap` option to enable generation of source map @astappiev
+- Because we have to proceed both css and map, a `processor` should return `{ css: string, map?: string }` instead of just `string`
 
 ## [2.6.1] - 2020-10-01
 ### Updated
